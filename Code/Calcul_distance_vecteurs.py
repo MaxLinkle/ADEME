@@ -17,7 +17,7 @@ import math as m
 #         counter+=1
 
 
-def graphe2D_placePoint(x, y, point_line):
+def graph2D_placePoint(x, y, point_line):
     if point_line == "point":
         g.plot(x, y, 'r*')
     elif point_line == "line":
@@ -64,7 +64,7 @@ y = [2.3522,
      5.9306,
      4.3903,
      0.1,
-     5.7224,
+      5.7224,
      4.8803,
      5.0167,
      - 0.5542,
@@ -72,10 +72,12 @@ y = [2.3522,
      3.0824,
      0.1984
      ]
-graphe2D_placePoint(x, y, "point")
-norme=0
-for i in range(len(x)):
-    norme[i].append(m.sqrt(x[i]**2+y[i]**2))
+graph2D_placePoint(x, y, "point")
+norme=[]
+for i in range(len(x)-2):
+    a=111.39*x[i]                   #conversion en metres pour latitude
+    b=111.39*m.cos(x[i])*y[i]       #conversion en metres pour longitude
+    norme.append(m.sqrt(a**2+b**2)) #calcul de norme d'une ville à une autre
 
 print(norme)
 # r* pour afficher des points
