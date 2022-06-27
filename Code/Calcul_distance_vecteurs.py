@@ -25,6 +25,11 @@ def graph2D_placePoint(x, y, point_line):
     else:
         print("Error plotting")
 
+def Var_contraintes():
+    Nb_villes=rnd.randint(0, 10)
+    Capacite_vehicule=rnd.randint(0, int(1000+0.1*Nb_villes))
+    Temps_transfert=rnd.randint(0, int(1000+0.3*Nb_villes))
+    return (Nb_villes, Capacite_vehicule, Temps_transfert)
 
 x = [48.8566,
      43.2964,
@@ -74,12 +79,31 @@ y = [2.3522,
      ]
 graph2D_placePoint(x, y, "point")
 norme=[]
-for i in range(len(x)-2):
+liste_NbVilles=[]
+liste_tParcours=[]
+liste_cap=[]
+#rnd.seed(3)
+for i in range(len(x)):
     a=111.39*x[i]                   #conversion en metres pour latitude
     b=111.39*m.cos(x[i])*y[i]       #conversion en metres pour longitude
     norme.append(m.sqrt(a**2+b**2)) #calcul de norme d'une ville à une autre
-
+    
+    n, Cap_camion, T_n=Var_contraintes()    #Z=((60+10n)/n)*X+((50+10n)n)*Y+n
+    print("Contraintes", T_n, Cap_camion, n)
+    liste_NbVilles.append(T_n)
+    liste_tParcours.append(Cap_camion)
+    liste_cap.append(n)
 print(norme)
-# r* pour afficher des points
+liste_poids=[]
+matrice_poids=[]                    #matrice 2x2, regarder plus bas
+for i in range(len(liste_NbVilles)):
+    liste_poids.append(int(((liste_NbVilles[i]+liste_cap[i]+liste_tParcours[i])/100)))
+    
+while liste_poids!=[]:
+    matrice_poids.append(liste_poids[:1])   #prendre tout jusqu'au 1er élèment de la liste, donc 1 seul élèment
+    liste_poids=liste_poids[1:]     #prendre tout jusqu'au 1er élèment de la liste, donc 1 seul élèment
+    
+print (matrice_poids)
+# r* pour afficher des points ; afficher des graphes pour chaque gén. de func. contraintes
 # afficher points sur un graphe
 g.legend()
